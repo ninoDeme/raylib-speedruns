@@ -2,17 +2,26 @@ using System;
 using System.Runtime.InteropServices;
 
 struct Color {
-  public byte R, G, B, A;
-  public Color(byte r, byte g, byte b, byte a) {
-    R = r;
-    G = g;
-    B = b;
-    A = a;
+  public byte r, g, b, a;
+  public Color(byte R, byte G, byte B, byte A) {
+    r = R;
+    g = G;
+    b = B;
+    a = A;
+  }
+}
+
+struct Vector2 {
+  public float x, y;
+  public Vector2(float X, float Y) {
+    x = X;
+    y = Y;
   }
 }
 
 public class App
 {
+  // Probably a good idea to put these in its own class...
   [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
   private static extern void InitWindow(int width, int height, string title);
   [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
@@ -27,34 +36,49 @@ public class App
   private static extern void ClearBackground(Color color);
   [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
   private static extern void DrawRectangle(int posX, int posY, int width, int height, Color color);
+  [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
+  private static extern bool IsMouseButtonDown(int button);
+  [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
+  private static extern Vector2 GetMousePosition();
+  [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
+  private static extern int GetScreenWidth();
+  [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
+  private static extern int GetScreenHeight();
 
   static int Main(string[] args)
   {
-    InitWindow(500, 400, "Hello World!");
-    bool inverteX = false;
+    InitWindow(500, 400, "Hello from C#!");
+    Color red = new Color(255, 0, 0, 255);
+    Color bgColor = new Color(20, 27, 30, 255);
+    bool invertX = false;
     float x = 0;
-    bool inverteY = false;
+    bool invertY = false;
     float y = 0;
     while (!WindowShouldClose()) {
       BeginDrawing();
-      ClearBackground(new Color(10, 10, 10, 255));
-      x += 50 * (inverteX ? -1 : 1) * GetFrameTime();
-      if (x > 450) {
-        inverteX = true;
+      ClearBackground(bgColor);
+      x += 50 * (invertX ? -1 : 1) * GetFrameTime();
+      if (x > GetScreenWidth() - 50) {
+        invertX = true;
         x = 450;
       } else if (x < 0) {
-        inverteX = false;
+        invertX = false;
         x = 0;
       }
-      y += 50 * (inverteY ? -1 : 1) * GetFrameTime();
-      if (y > 350) {
-        inverteY = true;
+      y += 50 * (invertY ? -1 : 1) * GetFrameTime();
+      if (y > GetScreenHeight() - 50) {
+        invertY = true;
         y = 350;
       } else if (y < 0) {
-        inverteY = false;
+        invertY = false;
         y = 0;
       }
-      DrawRectangle((int)x, (int)y, 50, 50, new Color(255, 0, 0, 255));
+      if (IsMouseButtonDown(0)) {
+        Vector2 pos = GetMousePosition();
+        x = pos.x;
+        y = pos.y;
+      }
+      DrawRectangle((int) x, (int) y, 50, 50, red);
       EndDrawing();
     }
     return 0;

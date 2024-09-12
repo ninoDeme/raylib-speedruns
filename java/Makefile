@@ -13,5 +13,5 @@ run-only:
 run: build run-only
 
 clean:
-	rm -f App.class Color.class App.h libraylibjava.so
+	rm -f *.class App.h libraylibjava.so
 
