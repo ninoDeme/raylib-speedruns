@@ -69,6 +69,7 @@ public class App {
         y = pos.y;
       }
       DrawRectangle((int)x, (int)y, 50, 50, red);
+      DrawFPS(10, 10);
       EndDrawing();
     }
   }
@@ -84,4 +85,5 @@ public class App {
   private native Vector2 GetMousePosition();
   private native int GetScreenWidth();
   private native int GetScreenHeight();
+  private native int DrawFPS(int posX, int posY);
 }

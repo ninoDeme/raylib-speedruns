@@ -26,7 +26,7 @@ if __name__ == "__main__":
     x = 0
     y = 0
     red = COLOR(255, 0, 0, 255) 
-    raylib.InitWindow(500, 400, b"Hello World!")
+    raylib.InitWindow(500, 400, b"Hello from Python3!")
     while not raylib.WindowShouldClose():
         raylib.BeginDrawing()
         raylib.ClearBackground(bgColor)
@@ -50,4 +50,5 @@ if __name__ == "__main__":
             y = pos.y
 
         raylib.DrawRectangle(int(x), int(y), 50, 50, red)
+        raylib.DrawFPS(10, 10)
         raylib.EndDrawing()

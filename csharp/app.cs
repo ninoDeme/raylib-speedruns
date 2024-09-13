@@ -44,6 +44,8 @@ public class App
   private static extern int GetScreenWidth();
   [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
   private static extern int GetScreenHeight();
+  [DllImport ("./raylib-5.0_linux_amd64/lib/libraylib.so")]
+  private static extern void DrawFPS(int posX, int posY);
 
   static int Main(string[] args)
   {
@@ -79,6 +81,7 @@ public class App
         y = pos.y;
       }
       DrawRectangle((int) x, (int) y, 50, 50, red);
+      DrawFPS(10, 10);
       EndDrawing();
     }
     return 0;

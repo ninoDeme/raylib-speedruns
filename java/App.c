@@ -81,3 +81,8 @@ JNIEXPORT jint JNICALL Java_App_GetScreenHeight
   (JNIEnv *env, jobject obj) {
   return GetScreenHeight();
 };
+
+JNIEXPORT jint JNICALL Java_App_DrawFPS
+  (JNIEnv *env, jobject obj, jint posX, jint posY) {
+  DrawFPS(posX, posY);
+};

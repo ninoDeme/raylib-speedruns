@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
       y = pos.y;
     }
     DrawRectangle((int)x, (int)y, 50, 50, red);
+    DrawFPS(10, 10);
     EndDrawing();
   }
 }
