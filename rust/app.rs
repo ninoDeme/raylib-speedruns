@@ -30,74 +30,74 @@ extern "C" {
     fn GetMousePosition() -> Vector2;
 }
 
-pub fn init_window(width: i32, height: i32, title: &str) -> () {
+fn init_window(width: i32, height: i32, title: &str) -> () {
     let title_c = CString::new(title).expect("Invalid input string");
     unsafe {
         InitWindow(width, height, title_c.as_ptr());
     }
 }
 
-pub fn window_should_close() -> bool {
+fn window_should_close() -> bool {
     unsafe {
         return WindowShouldClose() == 1;
     }
 }
 
-pub fn begin_drawing() -> () {
+fn begin_drawing() -> () {
     unsafe {
         BeginDrawing();
     }
 }
 
-pub fn end_drawing() -> () {
+fn end_drawing() -> () {
     unsafe {
         EndDrawing();
     }
 }
 
-pub fn clear_background(color: Color) -> () {
+fn clear_background(color: Color) -> () {
     unsafe {
         return ClearBackground(color);
     }
 }
 
-pub fn get_frame_time() -> f32 {
+fn get_frame_time() -> f32 {
     unsafe {
         return GetFrameTime();
     }
 }
 
-pub fn get_screen_width() -> i32 {
+fn get_screen_width() -> i32 {
     unsafe {
         return GetScreenWidth();
     }
 }
 
-pub fn get_screen_height() -> i32 {
+fn get_screen_height() -> i32 {
     unsafe {
         return GetScreenHeight();
     }
 }
 
-pub fn draw_rectangle(posX: i32, posY: i32, width: i32, height: i32, color: Color) {
+fn draw_rectangle(pos_x: i32, pos_y: i32, width: i32, height: i32, color: Color) {
     unsafe {
-        return DrawRectangle(posX, posY, width, height, color);
+        return DrawRectangle(pos_x, pos_y, width, height, color);
     }
 }
 
-pub fn draw_fps(posX: i32, posY: i32) {
+fn draw_fps(pos_x: i32, pos_y: i32) {
     unsafe {
-        return DrawFPS(posX, posY);
+        return DrawFPS(pos_x, pos_y);
     }
 }
 
-pub fn is_mouse_button_down(button: i32) -> bool {
+fn is_mouse_button_down(button: i32) -> bool {
     unsafe {
         return IsMouseButtonDown(button) == 1;
     }
 }
 
-pub fn get_mouse_position() -> Vector2 {
+fn get_mouse_position() -> Vector2 {
     unsafe {
         return GetMousePosition();
     }
@@ -110,26 +110,26 @@ fn main() {
     init_window(500, 400, "Hello from Rust!");
     let mut x: f32 = 0.0;
     let mut y: f32 = 0.0;
-    let mut invertX: bool = false;
-    let mut invertY: bool = false;
+    let mut invert_x: bool = false;
+    let mut invert_y: bool = false;
     while !window_should_close() {
         begin_drawing();
         clear_background(BG_COLOR);
 
-        x = x + 50.0 * (if invertX {-1.0} else  {1.0}) * get_frame_time();
+        x = x + 50.0 * (if invert_x {-1.0} else  {1.0}) * get_frame_time();
         if x > get_screen_width() as f32 - 50.0 {
-            invertX = true;
+            invert_x = true;
             x = 450.0;
         } else if x < 0.0 {
-            invertX = false;
+            invert_x = false;
             x = 0.0;
         }
-        y = y + 50.0 * (if invertY {-1.0} else {1.0}) * get_frame_time();
+        y = y + 50.0 * (if invert_y {-1.0} else {1.0}) * get_frame_time();
         if y > get_screen_height() as f32 - 50.0 {
-            invertY = true;
+            invert_y = true;
             y = 350.0;
         } else if y < 0.0 {
-            invertY = false;
+            invert_y = false;
             y = 0.0;
         }
         if is_mouse_button_down(0) {
